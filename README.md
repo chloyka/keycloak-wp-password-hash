@@ -114,3 +114,22 @@ To stop the test container:
 ```bash
 docker-compose down
 ```
+
+## Using the Pre-built JAR Without Compiling (Download in Dockerfile)
+
+Since the GitHub Packages repository is public, you don’t need credentials to download the JAR. Your Dockerfile can fetch it directly during build.
+
+Create a Dockerfile in the project root that pulls the JAR and runs Keycloak build:
+
+### Base image with Java runtime
+```dockerfile
+ARG VERSION=1.0.0
+
+FROM bitnami/keycloak:26.2.5 AS builder
+RUN wget -O /opt/bitnami/keycloak/providers/wordpress-password-hasher-${VERSION}.jar \
+    "https://github.com/chloyka/keycloak-wp-password-hash/releases/download/${VERSION}/wordpress-password-hasher-${VERSION}.jar"
+RUN /opt/bitnami/keycloak/bin/kc.sh build
+
+FROM bitnami/keycloak:26.2.5
+COPY --from=builder /opt/bitnami/keycloak/ /opt/bitnami/keycloak/
+```
