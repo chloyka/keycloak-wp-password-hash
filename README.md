@@ -25,15 +25,14 @@ Keycloak requires any custom provider jars to be present during the build step. 
    cp target/wordpress-password-hasher-1.0.0.jar test/providers/
    ```
 
-Alternatively, run the Makefile from the `test` directory which performs the Maven build:
+Alternatively, run the Makefile which performs the Maven build:
 ```bash
-cd test
 make build
 ```
 
 ## Building the Keycloak Container
 
-The standard Keycloak image does not contain this provider, so a new image must be built. Inside the `test` directory run:
+The standard Keycloak image does not contain this provider, so a new image must be built. Run:
 
 ```bash
 make build-docker
