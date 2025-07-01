@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  keycloak:
+    image: kc:latest
+    container_name: kc-dev
+    command: >
+      start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: secret
+    ports:
+      - "8080:8080"
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./providers:/opt/keycloak/providers
+    restart: unless-stopped
+
+volumes:
+  keycloak_data:
